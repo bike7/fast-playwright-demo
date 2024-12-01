@@ -1,6 +1,7 @@
 package pl.akademiaqa.modul6;
 
 import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.Mouse;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.KeyboardModifier;
@@ -18,6 +19,8 @@ import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertTha
 public class PageOptions extends TestFixtures {
 
     //Assertions documentation: https://playwright.dev/java/docs/test-assertions
+    //Keyboard keys documentation: https://playwright.dev/java/docs/api/class-keyboard
+    //Mouse documentation: https://playwright.dev/java/docs/api/class-mouse
     //Playwright debug mode environment variable: PWDEBUG=1
 
     @Test
@@ -47,7 +50,7 @@ public class PageOptions extends TestFixtures {
         page.click("", new Page.ClickOptions().setClickCount(10)); //default set to 1, how many times to click
         page.click("", new Page.ClickOptions().setButton(MouseButton.RIGHT));
         page.click("", new Page.ClickOptions().setModifiers(List.of(KeyboardModifier.ALT, KeyboardModifier.SHIFT))); //not all keyboard buttons supported
-        page.press("", "Delete", new Page.PressOptions().setDelay(1000)); //supports: Backquote, Minus, Equal, Backslash, Backspace, Tab, Delete, Escape,ArrowDown, End, Enter, Home, Insert, PageDown, PageUp, ArrowRight,ArrowUp, F1 - F12, Digit0 - Digit9, KeyA - KeyZ, etc.
+        page.press("", "Delete", new Page.PressOptions().setDelay(1000)); //supports keys: Backquote, Minus, Equal, Backslash, Backspace, Tab, Delete, Escape,ArrowDown, End, Enter, Home, Insert, PageDown, PageUp, ArrowRight,ArrowUp, F1 - F12, Digit0 - Digit9, KeyA - KeyZ, etc.
         page.dblclick(""); //double click
     }
 
@@ -117,4 +120,85 @@ public class PageOptions extends TestFixtures {
         assertThat(thirdRadioButton).isChecked();
 
     }
+
+    @Test
+    @DisplayName("Dynamic loading options example 1")
+    void dynamicLoadingOptionsExample1() {
+        page.navigate("https://the-internet.herokuapp.com/dynamic_loading/1");
+        Locator text = page.getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName("Hello World!"));
+        assertThat(text).not().isVisible();
+
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Start")).click();
+        //No need to wait for the element to appear, Playwright will wait for it to appear
+        assertThat(text).isVisible();
+    }
+
+    @Test
+    @DisplayName("Dynamic loading options example 2")
+    void dynamicLoadingOptionsExample2() {
+        page.navigate("https://the-internet.herokuapp.com/dynamic_loading/2");
+        Locator text = page.getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName("Hello World!"));
+        assertThat(text).not().isVisible();
+
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Start")).click();
+        //No need to wait for the element to appear, Playwright will wait for it to appear
+        assertThat(text).isVisible();
+    }
+
+    @Test
+    @DisplayName("Dynamic controls options example 1")
+    void dynamicControlsOptionsExample1() {
+        page.navigate("https://the-internet.herokuapp.com/dynamic_controls");
+        Locator checkbox = page.locator("#checkbox");
+        assertThat(checkbox).isVisible();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Remove")).click();
+        //No need to wait for the element to disappear, Playwright will automatically wait for it to disappear
+        assertThat(checkbox).not().isVisible();
+    }
+
+    @Test
+    @DisplayName("Dynamic controls options example 2")
+    void dynamicControlsOptionsExample2() {
+        page.navigate("https://the-internet.herokuapp.com/dynamic_controls");
+        Locator input = page.locator("#input-example input[type='text']");
+        assertThat(input).isDisabled();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Enable")).click();
+        //No need to wait for the element to appear, Playwright will automatically wait for it to appear
+        assertThat(input).isEnabled();
+    }
+
+    @Test
+    @DisplayName("Key (keyboard) press options)")
+    void keyPressOptions() {
+        page.navigate("https://the-internet.herokuapp.com/key_presses");
+        page.press("#target", "ArrowUp");
+        //or
+        //page.locator("#target").click();
+        //page.keyboard().press("ArrowUp");
+        assertThat(page.getByText("You entered: UP")).isVisible();
+    }
+
+    @Test
+    @DisplayName("Mouse options")
+    void mouseOptions() {
+        page.navigate("https://the-internet.herokuapp.com/context_menu");
+        page.mouse().click(250, 250, new Mouse.ClickOptions().setButton(MouseButton.RIGHT));
+    }
+
+    @Test
+    @DisplayName("Drag and drop options")
+    void dragAndDropOptions() {
+        page.navigate("https://the-internet.herokuapp.com/drag_and_drop");
+        Locator source = page.locator("#column-a");
+        Locator target = page.locator("#column-b");
+        source.dragTo(target);
+    }
+
+    @Test
+    @DisplayName("Tables options")
+    void tablesOptions() {
+        page.navigate("https://the-internet.herokuapp.com/tables");
+
+    }
 }
+
