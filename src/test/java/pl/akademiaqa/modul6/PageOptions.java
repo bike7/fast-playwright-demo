@@ -198,7 +198,18 @@ public class PageOptions extends TestFixtures {
     @DisplayName("Tables options")
     void tablesOptions() {
         page.navigate("https://the-internet.herokuapp.com/tables");
+        List<String> strings = page.locator("table#table1 td").allInnerTexts();
 
+        strings.stream().map(String::trim).map(String::toUpperCase).forEach(System.out::print);
+    }
+
+    @Test
+    @DisplayName("Tables to object options")
+    void tablesToObjectOptions() {
+        page.navigate("https://the-internet.herokuapp.com/tables");
+        List<String> strings = page.locator("table#table1 td").allInnerTexts();
+
+        strings.stream().map(String::trim).map(String::toUpperCase).forEach(System.out::print);
     }
 }
 
