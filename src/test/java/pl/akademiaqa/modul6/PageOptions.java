@@ -207,9 +207,25 @@ public class PageOptions extends TestFixtures {
     @DisplayName("Tables to object options")
     void tablesToObjectOptions() {
         page.navigate("https://the-internet.herokuapp.com/tables");
-        List<String> strings = page.locator("table#table1 td").allInnerTexts();
+        List<Locator> lines = page.locator("table#table1 tbody tr").all();
+        List<TableUser> users = lines.stream().map(line -> {
+            List<Locator> cells = line.getByRole(AriaRole.CELL).all();
+            String lastname = cells.get(0).innerText();
+            String firstname = cells.get(1).innerText();
+            String email = cells.get(2).innerText();
+            String due = cells.get(3).innerText();
+            String website = cells.get(4).innerText();
+            Locator action = cells.get(5);
 
-        strings.stream().map(String::trim).map(String::toUpperCase).forEach(System.out::print);
+            return new TableUser(lastname, firstname, email, due, website, action);
+        }).toList();
+
+        TableUser frank = users.stream()
+                .filter(user -> user.getFirstName().equals("Frank"))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("User not found"));
+
+        frank.getAction().getByText("edit").click();
     }
 }
 
