@@ -5,6 +5,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pl.akademiaqa.common.TestFixtures;
 
+import java.nio.file.Paths;
+
 public class AdvancedPageOptions extends TestFixtures {
 
     @Test
@@ -86,4 +88,27 @@ public class AdvancedPageOptions extends TestFixtures {
         page.locator("text=Click for JS Prompt").click();
         PlaywrightAssertions.assertThat(page.locator("#result")).hasText("You entered: null");
     }
+
+    @Test
+    @DisplayName("Download file using handler")
+    public void shoulddownloadFileUsingHandler() {
+        page.navigate("https://the-internet.herokuapp.com/download");
+
+        //Handler before click
+        page.onDownload(download -> download.saveAs(Paths.get("downloads/downloaded_file.txt")));
+
+        page.getByText("testtesttest.txt").click();
+    }
+
+    @Test
+    @DisplayName("Download file using save")
+    public void shoulddownloadFileUsingSave() {
+        page.navigate("https://the-internet.herokuapp.com/download");
+
+        //Click first then save
+        //Click first then save
+        page.waitForDownload(() -> page.getByText("testtesttest.txt").click())
+                .saveAs(Paths.get("downloads/downloaded_file1.txt"));
+    }
+
 }
