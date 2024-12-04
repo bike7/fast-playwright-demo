@@ -1,6 +1,9 @@
 package pl.akademiaqa.modul7;
 
+import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.Page;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
+import com.microsoft.playwright.options.AriaRole;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pl.akademiaqa.common.TestFixtures;
@@ -120,6 +123,7 @@ public class AdvancedPageOptions extends TestFixtures {
         page.setInputFiles("#file-upload", new Path[0]);
         page.setInputFiles("#file-upload", Paths.get("uploads/test1.txt"));
         page.locator("#file-submit").click();
+
         PlaywrightAssertions.assertThat(page.getByText("File Uploaded!")).isVisible();
     }
 
@@ -129,5 +133,20 @@ public class AdvancedPageOptions extends TestFixtures {
         page.navigate("https://davidwalsh.name/demo/multiple-file-upload.php");
 
         page.setInputFiles("#filesToUpload", new Path[]{Paths.get("uploads/test.txt"), Paths.get("uploads/test1.txt")});
+    }
+
+    @Test
+    @DisplayName("Screenshot of the whole page")
+    public void shouldTakeScreenshotOfThePage() {
+        page.navigate("https://the-internet.herokuapp.com/");
+        page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get("screenshots/home.jpeg")));
+    }
+
+    @Test
+    @DisplayName("Screenshot of one element")
+    public void shouldTakeScreenshotOfElement() {
+        page.navigate("https://the-internet.herokuapp.com/login");
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Login")).click();
+        page.locator("#flash-messages").screenshot(new Locator.ScreenshotOptions().setPath(Paths.get("screenshots/login-error.jpeg")));
     }
 }
