@@ -149,4 +149,11 @@ public class AdvancedPageOptions extends TestFixtures {
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Login")).click();
         page.locator("#flash-messages").screenshot(new Locator.ScreenshotOptions().setPath(Paths.get("screenshots/login-error.jpeg")));
     }
+
+    @Test
+    @DisplayName("Basic Auth - setup in context in TestFixtures")
+    public void shouldTestBasicAuth() {
+        page.navigate("https://the-internet.herokuapp.com/basic_auth");
+        PlaywrightAssertions.assertThat(page.getByText("Congratulations! You must have the proper credentials.")).isVisible();
+    }
 }
