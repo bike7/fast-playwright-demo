@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pl.akademiaqa.common.TestFixtures;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class AdvancedPageOptions extends TestFixtures {
@@ -91,7 +92,7 @@ public class AdvancedPageOptions extends TestFixtures {
 
     @Test
     @DisplayName("Download file using handler")
-    public void shoulddownloadFileUsingHandler() {
+    public void shouldDownloadFileUsingHandler() {
         page.navigate("https://the-internet.herokuapp.com/download");
 
         //Handler before click
@@ -102,13 +103,31 @@ public class AdvancedPageOptions extends TestFixtures {
 
     @Test
     @DisplayName("Download file using save")
-    public void shoulddownloadFileUsingSave() {
+    public void shouldDownloadFileUsingSave() {
         page.navigate("https://the-internet.herokuapp.com/download");
 
-        //Click first then save
         //Click first then save
         page.waitForDownload(() -> page.getByText("testtesttest.txt").click())
                 .saveAs(Paths.get("downloads/downloaded_file1.txt"));
     }
 
+    @Test
+    @DisplayName("Upload file")
+    public void shouldUploadFile() {
+        page.navigate("https://the-internet.herokuapp.com/upload");
+
+        page.setInputFiles("#file-upload", Paths.get("uploads/test.txt"));
+        page.setInputFiles("#file-upload", new Path[0]);
+        page.setInputFiles("#file-upload", Paths.get("uploads/test1.txt"));
+        page.locator("#file-submit").click();
+        PlaywrightAssertions.assertThat(page.getByText("File Uploaded!")).isVisible();
+    }
+
+    @Test
+    @DisplayName("Multiple file upload")
+    public void shouldUploadMultipleFile() {
+        page.navigate("https://davidwalsh.name/demo/multiple-file-upload.php");
+
+        page.setInputFiles("#filesToUpload", new Path[]{Paths.get("uploads/test.txt"), Paths.get("uploads/test1.txt")});
+    }
 }
