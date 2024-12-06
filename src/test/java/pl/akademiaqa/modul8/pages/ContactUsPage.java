@@ -2,16 +2,15 @@ package pl.akademiaqa.modul8.pages;
 
 import com.microsoft.playwright.Page;
 import lombok.Getter;
-import pl.akademiaqa.modul8.pages.sections.ContactUsForm;
+import pl.akademiaqa.modul8.pages.sections.ContactUsFormSection;
 
-public class ContactUsPage {
-
-    private Page page;
+public class ContactUsPage extends BasePage {
     @Getter
-    private ContactUsForm contactUsForm;
+    private ContactUsFormSection contactUsFormSection;
 
     public ContactUsPage(Page page) {
-        this.page = page;
+        super(page);
+        this.contactUsFormSection = new ContactUsFormSection(page);
     }
 
 }
