@@ -2,14 +2,21 @@ package pl.akademiaqa.modul7;
 
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Paths;
 
 public class AdvancedAutomationPractice {
+    private static Playwright playwright = Playwright.create();
+    private static Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(2000));
 
-    private Browser browser = Playwright.create().chromium().launch(new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(2000));
+    @AfterAll
+    public static void teardown() {
+        browser.close();
+        playwright.close();
+    }
 
     @Test
     @DisplayName("Should open multiple windows")

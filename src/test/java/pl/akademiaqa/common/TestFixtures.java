@@ -30,9 +30,10 @@ public class TestFixtures {
                         .setRecordVideoDir(Paths.get("videos/"))
                         .setRecordVideoSize(new RecordVideoSize(1920, 1080))
         );
-        */
+         //basic auth setup
         context = browser.newContext(new Browser.NewContextOptions().setHttpCredentials("admin", "admin"));
-        //context = browser.newContext();
+        */
+        context = browser.newContext();
         //start tracing
         context.tracing().start(new Tracing.StartOptions()
                 .setScreenshots(true)
