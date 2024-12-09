@@ -11,9 +11,9 @@ public class SendContactUsFormTests extends TestFixtures {
     @Test
     public void shouldShowErrorMessageWhenSendingEmptyForm() {
         //given
-        page.navigate("http://www.automationpractice.pl");
         //when
         Locator errorMessage = new HomePage(page)
+                .navigate()
                 .getTopMenuSection()
                 .clickContactUsLink()
                 .getContactUsFormSection()
@@ -26,9 +26,9 @@ public class SendContactUsFormTests extends TestFixtures {
     @Test
     public void shouldFillAndSendContactUsForm() {
         //given
-        page.navigate("http://www.automationpractice.pl");
         //when
         Locator confirmationMessage = new HomePage(page)
+                .navigate()
                 .getTopMenuSection()
                 .clickContactUsLink()
                 .getContactUsFormSection()
