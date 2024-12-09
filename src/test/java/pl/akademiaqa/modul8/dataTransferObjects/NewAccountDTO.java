@@ -11,9 +11,9 @@ public class NewAccountDTO {
     private String lastName;
     private String email;
     private String password;
-    private String dayOfBirth;
-    private String monthOfBirth;
-    private String yearOfBirth;
+    private int dayOfBirth;
+    private int monthOfBirth;
+    private int yearOfBirth;
     private boolean newsletter;
 
 }

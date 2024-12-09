@@ -1,8 +1,8 @@
 package pl.akademiaqa.modul8.tests;
 
 import com.github.javafaker.Faker;
-import com.github.javafaker.Name;
-import org.junit.jupiter.api.Assertions;
+import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import org.junit.jupiter.api.Test;
 import pl.akademiaqa.common.TestFixtures;
 import pl.akademiaqa.modul8.dataTransferObjects.NewAccountDTO;
@@ -14,30 +14,35 @@ public class CreateAccountTests extends TestFixtures {
     @Test
     public void shouldCreateNewAccountTest() {
         //given
-        Name name = new Faker().name();
-        NewAccountDTO newAccount = NewAccountDTO.builder()
-                .firstName(name.firstName())
-                .lastName(name.lastName())
-                .email(name.username() + "@mailinator.com")
-                .password("Password123")
+        Faker faker = new Faker();
+        NewAccountDTO newAccountData = NewAccountDTO.builder()
+                .isMale(faker.bool().bool())
+                .firstName(faker.name().firstName())
+                .lastName(faker.name().lastName())
+                .email(faker.name().username() + "@mailinator.com")
+                .password(faker.internet().password(5, 10, false, false, true))
+                .dayOfBirth(faker.number().numberBetween(1, 28))
+                .monthOfBirth(faker.number().numberBetween(1, 12))
+                .yearOfBirth(faker.number().numberBetween(1985, 2000))
+                .newsletter(faker.bool().bool())
                 .build();
         String expectedConfirmationMessage = "Your account has been created.";
 
         //when
-        String actualConfirmationMessage = new HomePage(page)
+        Locator actualConfirmationMessage = new HomePage(page)
                 .navigate()
                 .getTopMenuSection()
                 .clickSignInLink()
                 .getAuthenticationSection()
-                .fillEmailField(newAccount.getEmail())
+                .fillEmailField(newAccountData.getEmail())
                 .clickCreateAnAccount()
                 .getCreateAccountSection()
-                .fillInForm(newAccount)
+                .fillInForm(newAccountData)
                 .clickRegisterButton()
                 .getMyAccountSection()
-                .getMyAccountSuccessAlertText();
+                .getMyAccountSuccessAlert();
 
         //then
-        Assertions.assertEquals(expectedConfirmationMessage, actualConfirmationMessage);
+        PlaywrightAssertions.assertThat(actualConfirmationMessage).hasText(expectedConfirmationMessage);
     }
 }
