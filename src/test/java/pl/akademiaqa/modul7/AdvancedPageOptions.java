@@ -1,5 +1,6 @@
 package pl.akademiaqa.modul7;
 
+import com.microsoft.playwright.Download;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
@@ -8,8 +9,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pl.akademiaqa.common.TestFixtures;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AdvancedPageOptions extends TestFixtures {
 
@@ -106,12 +110,16 @@ public class AdvancedPageOptions extends TestFixtures {
 
     @Test
     @DisplayName("Download file using save")
-    public void shouldDownloadFileUsingSave() {
+    void shouldDownloadFileUsingSave() {
+        Path downloadedFilePath = Paths.get("downloads/downloaded_file1.txt");
+
         page.navigate("https://the-internet.herokuapp.com/download");
 
-        //Click first then save
-        page.waitForDownload(() -> page.getByText("testtesttest.txt").click())
-                .saveAs(Paths.get("downloads/downloaded_file1.txt"));
+        // Click first then save
+        Download download = page.waitForDownload(() -> page.getByText("testtesttest.txt").click());
+        download.saveAs(downloadedFilePath);
+
+        assertTrue(Files.exists(downloadedFilePath));
     }
 
     @Test
@@ -120,11 +128,11 @@ public class AdvancedPageOptions extends TestFixtures {
         page.navigate("https://the-internet.herokuapp.com/upload");
 
         page.setInputFiles("#file-upload", Paths.get("uploads/test.txt"));
-        page.setInputFiles("#file-upload", new Path[0]);
+        page.setInputFiles("#file-upload", new Path[0]); //passing empty path removes the first file
         page.setInputFiles("#file-upload", Paths.get("uploads/test1.txt"));
         page.locator("#file-submit").click();
 
-        PlaywrightAssertions.assertThat(page.getByText("File Uploaded!")).isVisible();
+        PlaywrightAssertions.assertThat(page.getByText("File Uploaded!")).isVisible();//only second file gets uploaded
     }
 
     @Test
