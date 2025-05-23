@@ -3,11 +3,11 @@ package pl.akademiaqa.modul3;
 import com.microsoft.playwright.Page;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pl.akademiaqa.common.TestFixtures;
+import pl.akademiaqa.common.TestFixturesUI;
 
 import java.nio.file.Paths;
 
-public class AllBrowsersTests extends TestFixtures {
+public class AllBrowsersTests extends TestFixturesUI {
 
     @Test
     @DisplayName("Open Chromium browser")

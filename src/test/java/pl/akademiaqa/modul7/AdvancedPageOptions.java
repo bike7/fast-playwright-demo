@@ -7,7 +7,7 @@ import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import com.microsoft.playwright.options.AriaRole;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pl.akademiaqa.common.TestFixtures;
+import pl.akademiaqa.common.TestFixturesUI;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class AdvancedPageOptions extends TestFixtures {
+public class AdvancedPageOptions extends TestFixturesUI {
 
     @Test
     @DisplayName("Basic iframe handling. Should get text from an iframe")

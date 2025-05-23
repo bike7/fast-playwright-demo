@@ -3,7 +3,7 @@ package pl.akademiaqa.modul13;
 import com.microsoft.playwright.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pl.akademiaqa.common.TestFixtures;
+import pl.akademiaqa.common.TestFixturesUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class RequestResponseTests extends TestFixtures {
+public class RequestResponseTests extends TestFixturesUI {
 
     @DisplayName("Should return status code 200")
     @Test

@@ -6,11 +6,11 @@ import com.microsoft.playwright.options.AriaRole;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pl.akademiaqa.common.TestFixtures;
+import pl.akademiaqa.common.TestFixturesUI;
 
 import java.util.List;
 
-public class AutomationPractice extends TestFixtures {
+public class AutomationPractice extends TestFixturesUI {
 
     @Test
     @DisplayName("Should contain only dresses with price higher than 15$")

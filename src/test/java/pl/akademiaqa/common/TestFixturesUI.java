@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import java.nio.file.Paths;
 
-public class TestFixtures {
+public class TestFixturesUI {
 
     protected static Playwright playwright;
     protected BrowserContext context;

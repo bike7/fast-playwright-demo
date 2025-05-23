@@ -10,13 +10,13 @@ import com.microsoft.playwright.options.WaitUntilState;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pl.akademiaqa.common.TestFixtures;
+import pl.akademiaqa.common.TestFixturesUI;
 
 import java.util.List;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
-public class PageOptions extends TestFixtures {
+public class PageOptions extends TestFixturesUI {
 
     //Assertions documentation: https://playwright.dev/java/docs/test-assertions
     //Keyboard keys documentation: https://playwright.dev/java/docs/api/class-keyboard

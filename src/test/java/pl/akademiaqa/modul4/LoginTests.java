@@ -3,11 +3,11 @@ package pl.akademiaqa.modul4;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
 import org.junit.jupiter.api.Test;
-import pl.akademiaqa.common.TestFixtures;
+import pl.akademiaqa.common.TestFixturesUI;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
-public class LoginTests extends TestFixtures {
+public class LoginTests extends TestFixturesUI {
 
     @Test
     void shouldLoginWithValidCredentials() {
