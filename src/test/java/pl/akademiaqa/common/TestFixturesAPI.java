@@ -23,7 +23,7 @@ public class TestFixturesAPI {
         playwright = Playwright.create();
         request = playwright.request();
         context = request.newContext(new APIRequest.NewContextOptions()
-                //.setBaseURL("https://jsonplaceholder.typicode.com/") //Create and update test will work only on localhost
+                //.setBaseURL("https://jsonplaceholder.typicode.com/") //Create and update tests will work only on localhost
                 .setBaseURL("http://localhost:3000/")
                 .setExtraHTTPHeaders(headers));
     }

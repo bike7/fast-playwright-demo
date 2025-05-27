@@ -1,28 +1,24 @@
 package pl.akademiaqa.modul16;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microsoft.playwright.APIResponse;
-import com.microsoft.playwright.options.RequestOptions;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pl.akademiaqa.common.TestFixturesAPI;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static pl.akademiaqa.modul16.ApiConstants.*;
 
-public class DeleteUserTest extends TestFixturesAPI {
+public class DeleteUserTest extends BaseApiTest {
     @Test
     public void deleteUser() throws JsonProcessingException {
-        User user = User.getRandomUser();
-        APIResponse createdUserResponse = context.post("users", RequestOptions.create().setData(user));
-        User createdUser = new ObjectMapper().readValue(createdUserResponse.text(), User.class);
+        User user = createUser(User.getRandomUser());
 
-        APIResponse response = context.delete("users/" + createdUser.getId());
+        APIResponse deleteResponse = context.delete(String.format(USER_BY_ID_ENDPOINT, user.getId()));
 
-        assertThat(response).isOK();
-        Assertions.assertThat(response.status()).isEqualTo(200);
+        assertThat(deleteResponse).isOK();
+        assertThat(deleteResponse.status()).isEqualTo(OK_STATUS);
 
-        APIResponse deletedUserResponse = context.get("users/" + createdUser.getId());
-        Assertions.assertThat(deletedUserResponse.status()).isEqualTo(404);
+        APIResponse getResponse = context.get(String.format(USER_BY_ID_ENDPOINT, user.getId()));
+        assertThat(getResponse.status()).isEqualTo(NOT_FOUND_STATUS);
     }
 }
