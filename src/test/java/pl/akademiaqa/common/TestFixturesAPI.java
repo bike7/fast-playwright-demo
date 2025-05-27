@@ -29,7 +29,7 @@ public class TestFixturesAPI {
     }
 
     @AfterEach
-    void cleanup() {
+    void teardown() {
         context.dispose();
         playwright.close();
     }
