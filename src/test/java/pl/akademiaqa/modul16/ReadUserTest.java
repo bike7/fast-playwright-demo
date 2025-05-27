@@ -45,7 +45,7 @@ public class ReadUserTest extends BaseApiTest {
         User user2 = users.stream()
                 .filter(user -> user.getId() == 2)
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new IllegalStateException("User not found"));
 
         assertThat(user2).isNotNull();
         assertThat(user2.getName()).isEqualTo("Ervin Howell");
