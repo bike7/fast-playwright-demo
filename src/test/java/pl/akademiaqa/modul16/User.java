@@ -1,6 +1,7 @@
 package pl.akademiaqa.modul16;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.github.javafaker.Faker;
 import lombok.Data;
 
 @Data
@@ -38,5 +39,37 @@ public class User {
         private String name;
         private String catchPhrase;
         private String bs;
+    }
+
+    public static User getRandomUser() {
+        Faker faker = new Faker();
+        User user = new User();
+
+        user.setName(faker.name().fullName());
+        user.setUsername(faker.name().username());
+        user.setEmail(faker.internet().emailAddress());
+        user.setPhone(faker.phoneNumber().phoneNumber());
+        user.setWebsite(faker.internet().url());
+
+        User.Address address = new User.Address();
+        address.setStreet(faker.address().streetName());
+        address.setSuite(faker.address().buildingNumber());
+        address.setCity(faker.address().city());
+        address.setZipcode(faker.address().zipCode());
+
+        User.Geo geo = new User.Geo();
+        geo.setLat(faker.address().latitude());
+        geo.setLng(faker.address().longitude());
+        address.setGeo(geo);
+
+        user.setAddress(address);
+
+        User.Company company = new User.Company();
+        company.setName(faker.company().name());
+        company.setCatchPhrase(faker.company().catchPhrase());
+        company.setBs(faker.company().bs());
+
+        user.setCompany(company);
+        return user;
     }
 }
